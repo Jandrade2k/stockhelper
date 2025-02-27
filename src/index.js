@@ -17,9 +17,16 @@ connectDB()
 app.use(bodyParser.json())
 
 app.use('/produtos', produtoRoutes)
+
 app.use('/empresas', empresaRoutes)
+
 app.use('/clientes', clienteRoutes)
+
 app.use('/pedidos', pedidoRoutes)
+
+app.get('/test', (req, res) => {
+    res.send('Teste OK!')
+})
 
 app.get('/', (req, res) => {
     res.send('API está rodando!')

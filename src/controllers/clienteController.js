@@ -1,7 +1,13 @@
+const { json } = require('body-parser');
 const Cliente = require('../models/cliente')
 const bcrypt = require('bcrypt')
 
 const clienteService = {
+
+  testCliente: async () => {
+    return 'Teste de Cliente OK!'
+  },
+
   criarCliente: async (clienteData) => {
     try {
       const senhaCriptografada = await bcrypt.hash(clienteData.senha, 10)
@@ -10,6 +16,14 @@ const clienteService = {
         senha: senhaCriptografada,
       });
       return await novoCliente.save()
+    } catch (error) {
+      throw error
+    }
+  },
+
+  listarClientes: async () => {
+    try {
+      return await Cliente.find()
     } catch (error) {
       throw error
     }
