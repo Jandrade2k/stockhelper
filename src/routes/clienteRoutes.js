@@ -3,8 +3,6 @@ const clienteController = require('../controllers/clienteController')
 
 const router = express.Router()
 
-router.get('/', clienteController.testCliente)
-
 router.post('/', clienteController.criarCliente)
 
 router.get('list', clienteController.listarClientes)

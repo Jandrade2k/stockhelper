@@ -10,7 +10,7 @@ const pedidoRoutes = require('./routes/pedidoRoutes')
 dotenv.config()
 
 const app = express()
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3030
 
 connectDB()
 
@@ -24,12 +24,12 @@ app.use('/clientes', clienteRoutes)
 
 app.use('/pedidos', pedidoRoutes)
 
-app.get('/test', (req, res) => {
-    res.send('Teste OK!')
+app.get('/', (req, res) => {
+    res.send('API está rodando! na rota base')
 })
 
-app.get('/', (req, res) => {
-    res.send('API está rodando!')
+app.get('/test', (req, res) => {
+    res.send('Teste OK!')
 })
 
 app.listen(port, () => {

@@ -1,4 +1,4 @@
-const { json } = require('body-parser');
+const { json } = require('body-parser')
 const Cliente = require('../models/cliente')
 const bcrypt = require('bcrypt')
 
@@ -8,30 +8,39 @@ const clienteService = {
     return 'Teste de Cliente OK!'
   },
 
-  criarCliente: async (clienteData) => {
+  criarCliente: async (req, res) => {
+    const clienteData = req.body
+
+    if (!clienteData || !clienteData.senha) {
+      return res.status(400).json({ message: 'Dados inválidos ou senha ausente' })
+    }
+
     try {
       const senhaCriptografada = await bcrypt.hash(clienteData.senha, 10)
       const novoCliente = new Cliente({
         ...clienteData,
         senha: senhaCriptografada,
       });
-      return await novoCliente.save()
+      await novoCliente.save()
+      
+      return res.status(200).json({ message: `Cliente ${novoCliente.nome} criado com sucesso! no ID ${novoCliente._id}` })
     } catch (error) {
-      throw error
+      throw res.status(500).json({ message: 'Erro ao criar cliente', error: error.message })
     }
   },
 
-  listarClientes: async () => {
+  listarClientes: async (req, res) => {
     try {
       return await Cliente.find()
     } catch (error) {
-      throw error
+      throw res.status(500).json({ message: 'Erro ao listar clientes', error: error.message })
     }
   },
 
-  buscarClientePorEmail: async (email) => {
+  buscarClientePorEmail: async (req, res) => {
+    const emailData = req.body
     try {
-      return await Cliente.findOne({ email })
+      return await Cliente.findOne({ emailData})
     } catch (error) {
       throw error
     }
